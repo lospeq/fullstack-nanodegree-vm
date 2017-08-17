@@ -18,14 +18,13 @@ CREATE TABLE Matches(
 	win_id INTEGER REFERENCES Players(id),
 	los_id INTEGER REFERENCES Players(id));
 
+CREATE VIEW wins_v AS 
+	SELECT win_id, COUNT(win_id) AS win_count
+	FROM Matches
+	GROUP BY win_id;
 
-create view wins_v as 
-	select win_id, count(win_id) as win_count
-	from Matches
-	group by win_id;
-
-create view matches_v as
-	select p.id, count(m.id) as match_count
-	from Players p left join Matches m
-		on p.id = m.win_id or p.id = m.los_id
-		group by p.id;
+CREATE VIEW matches_v AS
+	SELECT p.id, count(m.id) AS match_count
+	FROM Players p LEFT JOIN Matches m
+		ON p.id = m.win_id OR p.id = m.los_id
+		GROUP BY p.id;
